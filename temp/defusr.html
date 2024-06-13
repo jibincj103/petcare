@@ -1,0 +1,130 @@
+
+
+{% load static %}
+<!doctype html>
+
+<html lang="en"> 
+
+ <head> 
+
+  <meta charset="UTF-8"> 
+
+  <title>CodePen - Animated Login Form using Html &amp; CSS Only</title> 
+
+  <link rel="logstyle" href="./login.css"> 
+
+ </head> 
+ {% include 'navlog.html' %}
+ <body> <!-- partial:index.partial.html --> 
+
+  <section> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> 
+
+   <div class="signin"> 
+
+    <div class="content"> 
+
+     <h2> USER REGISTRATION111</h2> 
+            {% if messages %}
+            <div class="alert alert-success alert-dismissible">
+              {% for message in  messages %}
+              <button type="button" class="close"  data-dismiss="alert" style="color: aqua;">x</button  >
+              <p style="color: aqua;">{{message}}</p>
+          </div>
+              {% endfor %}
+
+              {% endif %}
+
+
+
+     
+
+     <div class="form"> 
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+      <div class="inputBox" style="color: aqua;"> 
+
+        YOUR NAME: <input type="text" name="n" class="form-input"><br><br>
+      </div> 
+      <div class="inputBox" style="color: aqua;"> 
+
+        USER NAME: <input type="text" name="un" class="form-input"><br><br>
+      </div> 
+
+      <div class="inputBox" style="color: aqua;"> 
+
+        PASSWORD: <input type="password" name="pwd" class="form-input" required><br><br>
+
+      </div> 
+     
+
+      <div class="inputBox" style="color: aqua;"> 
+
+       RE-TYPE PASSWORD: <input type="password" name="pwd1" class="form-input" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 or more characters"  required><br><br>
+
+      </div>
+      <div class="inputBox" style="color: aqua;"> 
+
+        E-Mail: <input type="text" name="mail" class="form-input"  title=" Ensure Your Email Is Correctly Formatted"  required><br><br>
+        <br><br>
+      </div> 
+      
+      <div class="links"> <a href="/" style="color: aqua;">HOME</a> <a href="log" style="color: aqua;">Signin</a> 
+      </div>
+      <div class="inputBox" style="color: aqua;"> 
+
+       <input type="submit"  name="btn" value="REGISTRATER"> 
+
+      </div> 
+
+     </div> 
+
+    </div> 
+
+   </div> 
+
+  </section> <!-- partial --> 
+  <div style="width:fit-content;margin-left: 300px;background-color: bisque;font-size:25px;">
+    {% if messages %}
+    {% for i in messages %}
+    <div class="alert alert-danger d-flex align-items-center alert-dismissible" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+        <div>
+        {{i}}
+        </div> 
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>  
+    {% endfor %}
+    {% endif %}
+</div>
+
+
+<script>
+  function validateForm() {
+    var emailInput = document.getElementById("email");
+    var emailError = document.getElementById("emailError");
+    
+    // Check if the email is empty
+    if (emailInput.value === "") {
+      emailError.textContent = "Email is required.";
+      return false;
+    }
+    
+    // Use regex pattern for basic email validation
+    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(emailInput.value)) {
+      emailError.textContent = "Invalid email format.";
+      return false;
+    }
+    
+    // Clear any previous error messages
+    emailError.textContent = "";
+    
+    // Form is valid
+    return true;
+  }
+  </script>
+
+ </body>
+
+</html>

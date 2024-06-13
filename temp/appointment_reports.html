@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Reports</title>
+</head>
+<body>
+    <h1>Appointment Reports</h1>
+    <ul>
+        {% for report in reports %}
+            <li>
+                <h2>Report for Appointment: {{ report.appointment.name }}</h2>
+                <p>Report: {{ report.report }}</p>
+                <p>Rest Time: {{ report.rest_time }} hours</p>
+                <p>Medicine 1: {{ report.medicine1 }}</p>
+                <p>Medicine 2: {{ report.medicine2 }}</p>
+                <p>Created At: {{ report.created_at }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

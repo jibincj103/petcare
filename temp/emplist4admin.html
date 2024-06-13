@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('static/img/PetCare-Logo_2.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        /* Your other CSS styles */
+        h1 {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin: 0 0 20px;
+        }
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 12px;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        td img {
+            width: 80px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        .btn-delete {
+            background-color: #ff4b5c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            text-align: center;
+            display: inline-block;
+            margin: 4px 2px;
+            border-radius: 12px;
+            font-size: 14px;
+        }
+        .btn-delete:hover {
+            background-color: #e60000;
+        }
+    </style>
+</head>
+{% include 'adminpage1.html' %}
+<body>
+    <h1>Doctor Register</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Emp ID</th>
+                <th>Name</th>
+                <th>Image</th>
+                <th>Address</th>
+                <th>Qualifications</th>
+                <th>Contact No</th>
+                <th>Email</th>
+                <th>Identity Card</th>
+                <th>Approved</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for doctor in doctors %}
+            <tr id="doctor-{{ doctor.emp_id }}">
+                <td>{{ doctor.emp_id }}</td>
+                <td>{{ doctor.name }}</td>
+                <td>
+                    {% if doctor.image %}
+                    <a href="{{ doctor.image.url}}">view</a>
+                    {% else %}
+                    No Image
+                    {% endif %}
+                </td>
+                <td>{{ doctor.address }}</td>
+                <td>{{ doctor.qualifications }}</td>
+                <td>{{ doctor.contact_no }}</td>
+                <td>{{ doctor.email }}</td>
+                <td>
+                    {% if doctor.identity_card %}
+                    <a href="{{ doctor.identity_card.url }}">view</a>
+                    <!-- <img src="{{ doctor.identity_card.url }}" alt="ID Card"> -->
+                    {% else %}
+                    No ID Card
+                    {% endif %}
+                </td>
+                <td>{{ doctor.approved|yesno:"Yes,No" }}</td>
+                <td>
+                    <button class="btn-delete" onclick="deleteDoctor('{{ doctor.emp_id }}')">Delete</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h1>Employee Register</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Emp ID</th>
+                <th>Name</th>
+                <th>Image</th>
+                <th>Address</th>
+                <th>Qualifications</th>
+                <th>Contact No</th>
+                <th>Email</th>
+                <th>Identity Card</th>
+                <th>Approved</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees %}
+            <tr id="employee-{{ employee.emp_id }}">
+                <td>{{ employee.emp_id }}</td>
+                <td>{{ employee.name }}</td>
+                <td>
+                    {% if employee.image %}
+                    <img src="{{ employee.image.url }}" alt="{{ employee.name }}">
+                    {% else %}
+                    No Image
+                    {% endif %}
+                </td>
+                <td>{{ employee.address }}</td>
+                <td>{{ employee.qualifications }}</td>
+                <td>{{ employee.contact_no }}</td>
+                <td>{{ employee.email }}</td>
+                <td>
+                    {% if employee.identity_card %}
+                    <img src="{{ employee.identity_card.url }}" alt="ID Card">
+                    {% else %}
+                    No ID Card
+                    {% endif %}
+                </td>
+                <td>{{ employee.approved|yesno:"Yes,No" }}</td>
+                <td>
+                    <button class="btn-delete" onclick="deleteEmployee('{{ employee.emp_id }}')">Delete</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        function getCSRFToken() {
+            let cookieValue = null;
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, 10) === 'csrftoken=') {
+                    cookieValue = decodeURIComponent(cookie.substring(10));
+                    break;
+                }
+            }
+            return cookieValue;
+        }
+
+        function deleteDoctor(empId) {
+            if (confirm('Are you sure you want to delete this doctor?')) {
+                fetch(`/delete-doctor/${empId}/`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCSRFToken(),
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        document.getElementById('doctor-' + empId).remove();
+                    } else {
+                        alert('Failed to delete doctor');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to delete doctor');
+                });
+            }
+        }
+
+        function deleteEmployee(empId) {
+            if (confirm('Are you sure you want to delete this employee?')) {
+                fetch(`/delete-employee/${empId}/`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCSRFToken(),
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        document.getElementById('employee-' + empId).remove();
+                    } else {
+                        alert('Failed to delete employee');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to delete employee');
+                });
+            }
+        }
+    </script>
+</body>
+</html>

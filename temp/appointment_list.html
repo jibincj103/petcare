@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Appointment Requests</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1eff00;
+            margin: 20px 0;
+        }
+
+        .appointment-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .appointment-list li {
+            background: #fff;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .appointment-list li strong {
+            display: block;
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+
+        .appointment-list form {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .appointment-list button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .appointment-list button:hover {
+            background: #0056b3;
+        }
+
+        .navbar-nav {
+            display: flex;
+            justify-content: center;
+            background-color: #007bff;
+            padding: 10px 0;
+        }
+
+        .navbar-nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+        }
+
+        .navbar-nav a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    
+    {% include 'drpage.html' %}
+</head>
+<body>
+    <div class="navbar-nav">
+        <a href="{% url 'index.html' %}" class="nav-item nav-link">Home</a>
+    </div>
+    <div class="container">
+        <h1>Appointment Requests</h1>
+        <!-- Ensure this is the correct path to the logo image -->
+        
+        <ul class="appointment-list">
+            {% for appointment in appointment_requests %}
+                <li>
+                    <strong>Name:</strong> {{ appointment.name }}<br>
+                    <strong>Type:</strong> {{ appointment.type }}<br>
+                    <strong>Age:</strong> {{ appointment.age }}<br>
+                    <strong>Date:</strong> {{ appointment.date }}<br>
+                    
+                    <form method="post" action="{% url 'approve_appointment' appointment.id %}">
+                        {% csrf_token %}
+                        <button type="submit">Approve</button>
+                    </form>
+                    <form method="post" action="{% url 'reject_appointment' appointment.id %}">
+                        {% csrf_token %}
+                        <button type="submit">Reject</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

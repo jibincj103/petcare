@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Services</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0f7fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .nav-container {
+            width: 100%;
+            background-color: #0288d1; /* Optional: Add a background color for the nav */
+        }
+
+        .container {
+            width: 80%;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0288d1;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #b3e5fc;
+            color: #333;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .mark-as-done-form {
+            display: inline;
+        }
+
+        .mark-as-done-button {
+            background-color: #4caf50;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+   
+    <div class="nav-container">
+        {% include 'emppage.html' %}
+    </div>
+    <div class="container">
+        
+        <h1>Customer Services</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Customer ID</th>
+                    <th>Customer Name</th>
+                    
+                    <th>Pet Name</th>
+                    <th>Age</th>
+                    <th>Contact No</th>
+                    <th>Date</th>
+                    <th>Service Type</th>
+                    <th>Price</th>
+                    <th>Pay</th>
+                    <th>Actions</th> <!-- New table header for actions -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for service in services %}
+                <tr>
+                    <td>{{ service.customer.id}}</td>
+                    
+                    <td>{{ service.name }}</td>
+                    <td>{{ service.pet_name }}</td>
+                    <td>{{ service.age }}</td>
+                    <td>{{ service.contact_no }}</td>
+                    <td>{{ service.date }}</td>
+                    <td>{{ service.get_service_type_display }}</td>
+                    <td>₹{{ service.price }}</td>
+                    <td>{{ service.payment }}</td>
+                    <td>
+                        {% if not service.done %}
+                            <form class="mark-as-done-form" method="post" action="{% url 'mark_service_as_done' service_id=service.id %}">
+                                {% csrf_token %}
+                                <button class="mark-as-done-button" type="submit">Mark as Done</button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

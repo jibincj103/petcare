@@ -1,0 +1,40 @@
+path('cart/', views.cart_detail, name='cart'),
+    path('cart/add/<int:appointment_id>/', views.add_to_cart, name='add_to_cart'),
+    path('cart/remove/<int:appointment_id>/', views.remove_from_cart, name='remove_from_cart'),
+    path('cart/update/<int:appointment_id>/', views.update_cart, name='update_cart'),
+
+@login_required
+def cart_detail(request):
+    cart_items = AppoiCustomerCart.objects.filter(customer=request.user)
+    total = sum(item.total_price() for item in cart_items)
+    return render(request, 'appoi_customer_cart.html', {'cart_items': cart_items, 'total': total})
+
+@login_required
+def add_to_cart(request, appointment_id):
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+    cart_item, created = AppoiCustomerCart.objects.get_or_create(customer=request.user, appointment=appointment)
+
+    if not created:
+        cart_item.count += 1
+        cart_item.save()
+
+    return redirect('cart_detail')
+
+@login_required
+def remove_from_cart(request, appointment_id):
+    cart_item = get_object_or_404(AppoiCustomerCart, customer=request.user, appointment_id=appointment_id)
+    cart_item.delete()
+    return redirect('cart_detail')
+
+@login_required
+def update_cart(request, appointment_id):
+    cart_item = get_object_or_404(AppoiCustomerCart, customer=request.user, appointment_id=appointment_id)
+    count = int(request.POST.get('count', 1))
+
+    if count > 0:
+        cart_item.count = count
+        cart_item.save()
+    else:
+        cart_item.delete()
+
+    return redirect('cart_detail')

@@ -1,0 +1,452 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+cart html
+
+<div class="bg-light py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-0">
+                <a href="{% url 'index' %}">Home</a> <span class="mx-2 mb-0">/</span>
+                <strong class="text-black">Cart</strong>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="site-section">
+    <div class="container">
+        <div class="row mb-5">
+            <form class="col-md-12" method="post">
+                <div class="site-blocks-table">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr style="background-color: #51eaea">
+                                <th class="product-name">Appointment</th>
+                                <th class="product-price">Price</th>
+                                <th class="product-quantity">Quantity</th>
+                                <th class="product-total">Total</th>
+                                <th class="product-remove">Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in cart_items %}
+                            <tr>
+                                <td class="product-name">
+                                    <h4 class="h5 text-black">{{ item.service.type }} - {{ item.service.name }}</h4>
+                                    <p>Date: {{ item.service.date }}</p>
+                                    <p>Age: {{ item.service.age }}</p>
+                                </td>
+                                <td>₹{{ item.price }}</td>
+                                <td>
+                                    <div class="input-group mb-3" style="max-width: 120px;">
+                                        <div class="input-group-prepend">
+                                            <a href="minuscart/{{ item.id }}" class="btn btn-outline-primary">&minus;</a>
+                                        </div>
+                                        <input type="text" class="form-control text-center" value="{{ item.quantity }}" placeholder=""
+                                            aria-label="Example text with button addon" aria-describedby="button-addon1" disabled>
+                                        <div class="input-group-append">
+                                            {% if item.service.stck > item.quantity %}
+                                            <a href="pluscart/{{ item.id }}" class="btn btn-outline-primary">&plus;</a>
+                                            {% elif item.service.stck == item.quantity %}
+                                            <a href="" class="btn btn-outline-primary">&plus;</a><br>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>₹{{ item.total_price }}</td>
+                                <td><a href="deletecart/{{ item.id }}" class="btn btn-primary height-auto btn-sm">X</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row mb-5">
+                    <div class="col-md-6">
+                        <a href="{% url 'shop' %}" class="btn btn-primary btn-md btn-block">Continue Shopping</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 pl-5">
+                <div class="row justify-content-end">
+                    <div class="col-md-7">
+                        <div class="row">
+                            <div class="col-md-12 text-right border-bottom mb-5">
+                                <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <span class="text-black">Subtotal</span>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <strong class="text-black">₹{{ total_price }}</strong>
+                            </div>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="col-md-6">
+                                <span class="text-black">Total</span>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <strong class="text-black">₹{{ total_price }}</strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="{% url 'checkout' %}" class="btn btn-primary btn-lg btn-block">Proceed To Checkout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+
+
+appoinment html 
+<div class="container-fluid">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-5">
+                <div class="bg-primary py-5 px-4 px-sm-5">
+                    <form class="py-5">
+                       
+                        <div class="form-group">
+                        
+                            <label for="type">TYPE:</label>
+                            <select name="type" class="custom-select border-0 px-4" id="type">
+                                <option>Dog</option>
+                                <option>Cat</option>
+                                <option>Mouse</option>
+                                <option>Other</option>
+                            </select><br>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">NAME:</label>
+                            <input type="text" class="form-control border-0 p-4" name="name" id="name"><br>
+                        </div>
+                        <div class="form-group">
+                            <label for="age">AGE:</label>
+                            <input type="number"  class="form-control border-0 p-4" name="a" id="a"><br>
+                        </div>
+                        <div class="form-group">
+                            <label for="date">DATE:</label>
+                            <input type="datetime-local"  class="form-control border-0 p-4" name="setTodaysDate" id="setTodaysDate"><br><br>
+                        </div>
+                        <div>
+                            <button type="submit">CONFIRM APPOINTMENT</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+class Appointment(models.Model):
+    type = models.CharField(max_length=15)
+    name = models.CharField(max_length=15)
+    age = models.IntegerField()
+    date = models.DateTimeField()  # Change to DateTimeField
+
+    def __str__(self):
+        return self.name
+
+
+        class cart(models.Model):
+        user = models.ForeignKey(User, on_delete=models.CASCADE)
+        service = models.ForeignKey(Appointment, on_delete=models.CASCADE)
+        quantity = models.PositiveIntegerField(default=1)
+    
+    
+        
+    
+        def total_price(self):
+            return self.service.price * self.quantity
+
+
+
+
+
+
+
+
+@login_required
+def add_to_cart(request, service_id):
+    service = Appointment.objects.get(pk=service_id)
+    cart.objects.create(user=request.user, service=service, price=service.price)
+    return redirect('cart')
+
+@login_required
+def remove_from_cart(request, cart_id):
+    try:
+        cart_item = cart.objects.get(pk=cart_id, user=request.user)
+        cart_item.delete()
+    except cart.DoesNotExist:
+        # Handle the case where the cart item doesn't exist
+        pass
+    return redirect('cart')
+
+@login_required
+def view_cart(request):
+    # Retrieve cart items for the current user
+    user_cart_items = cart.objects.filter(user=request.user)
+
+    # Calculate total price for each cart item
+    for item in user_cart_items:
+        item.total_price = item.price * item.quantity
+
+    # Calculate the total price of all items in the cart
+    total_price = sum(item.total_price for item in user_cart_items)
+
+    # Pass cart items and total price to the template
+    context = {
+        'cart_items': user_cart_items,
+        'total_price': total_price
+    }
+
+    # Render the cart template with cart items
+    return render(request, 'cart.html', context)
+
+
+
+
+
+
+    
+@login_required(login_url="log")
+def appointments(request):
+    if request.method == "POST":
+        type= request.POST.get('type')
+        no = request.POST.get('name')
+        a = request.POST.get('a')
+        d = request.POST.get('setTodaysDate')
+        
+        obj = Appointment.objects.create(name=no, type=type, age=a, date=d)
+        obj.save()
+        messages.success(request, "User registered successfully")  # Optionally, provide a success message
+    
+    return render(request, 'appoin.html')
+
+
+
+
+    ..............................................................................
+
+
+    <div class="form-group">
+        <label for="doctor">SELECT DOCTOR:</label>
+        <select name="doctor" class="custom-select border-0 px-4" id="doctor">
+            {% for doctor in doctors %}
+            <option value="{{ doctor.id }}">{{ doctor.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+
+    ................................................................................
+    def drregisters(request):
+    if request.method == "POST":
+        form = DoctorRegisterForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            # Redirect to a success page or another URL after successful registration
+            return redirect('success_url_name')
+    else:
+        form = DoctorRegisterForm()
+    return render(request, 'drreg.html', {'form': form})
+
+
+
+@login_required(login_url="log")
+def appointment(request):
+    doctors = Appointment.objects.all()  # Fetch all doctors to populate the dropdown
+    if request.method == "POST":
+        form = AppointmentForm(request.POST)
+        if form.is_valid():
+            appointment = form.save(commit=False)
+            appointment.customer = request.user
+
+            # Calculate the price based on the type (you may adjust this logic as needed)
+            if appointment.type == 'Dog':
+                appointment.price = 299
+            elif appointment.type == 'Cat':
+                appointment.price = 259
+            elif appointment.type == 'Mouse':
+                appointment.price = 399
+            else:
+                appointment.price = 499
+            
+            appointment.save()
+            messages.success(request, "Appointment request sent successfully")
+            return redirect('appointment_confirmation', appointment_id=appointment.id)
+    else:
+        form = AppointmentForm()
+    return render(request, 'appoin.html', {'form': form, 'doctors': doctors})
+
+
+
+
+
+
+
+
+
+
+    {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CUSTOMER page</title>
+    <link rel="stylesheet" href=
+    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('{% static "img/empimg.jpg" %}');
+            background-size: cover; /* Cover the whole page */
+            background-position: center; /* Center the image */
+            font-family: Arial, sans-serif;
+        }
+        
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #0a5d9d;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a, .dropbtn {
+            display: inline-block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a:hover, .dropdown:hover .dropbtn {
+            background-color: red;
+        }
+
+        li.dropdown {
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+    <!-- {% include 'adnav.html' %} -->
+</head>
+<body>
+    <ul>
+        <li><a href="/employeereg">EMP Registration</a></li>
+        <li><a href="/emplog">EMP Login</a></li>
+        <li><a href="/empserlist">Service</a></li>
+    </div>
+    {% if user.is_authenticated %}
+    <a href="logout"><i class="fa  fa-power-off" style="color: rgb(231, 5, 5);font-size: 30px;float:right;margin-right:95px;padding:10px" class="mdiv"></i></a>
+    {% else %}
+
+
+    <div class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle btn btn-danger" data-toggle="dropdown">login</a>
+        <div class="dropdown-menu rounded-0 m-0">
+            <a href="{% url 'log' %}" class="dropdown-item">User</a>
+            <a href="{% url '/masterlogin' %}" class="dropdown-item">ADMIN</a>
+            <a href="{% url 'drlog' %}" class="dropdown-item">Dr</a>
+            <a href="{% url 'emplog' %}" class="dropdown-item">Employee</a>
+
+    {% endif %}
+        </div>
+    </div> 
+    </ul>
+    
+</body>
+</html>
+ correct it and <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+
+        <li class="nav-item dropdown pe-3">
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <li class="bi bi-person-circle"></li>
+            <span class="d-none d-md-block dropdown-toggle ps-2">Account</span>
+          </a><!-- End Profile Iamge Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6>Admin</h6>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="/ad_profile">
+                <i class="bi bi-person"></i>
+                <span>My Profile</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="/sign_out">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
+        
+      </ul>
+    </nav> add this one to the page

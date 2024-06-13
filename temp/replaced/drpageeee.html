@@ -1,0 +1,82 @@
+<!--  -->
+
+{% block title %}
+<title>Drpage</title>
+{% endblock title %}
+<style>
+    .card {
+     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+     transition: 0.3s;
+     width: 20%;
+    
+     border-radius: 5px;
+     display: inline-block;
+     padding: 1%;
+     margin-right: 10px;
+     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+   }
+   
+   .card:hover {
+     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+   }
+   
+   
+   .container {
+     padding: 2px 16px;
+     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+   }
+   </style>
+{% block content %}
+<div class="pagetitle">
+    <h1>Dr page</h1>
+    {% include 'adnav.html' %}
+</div><!-- End Page Title -->
+<br><br>
+<section > 
+    
+ 
+            
+              
+                
+                <div class="card">
+                
+                  <h5 class="card-title"> DR login  <span>| Price</span></h5>
+                <div class="container">
+                  <a href="/drlog"><h5>LODIN</h5></a>
+                  
+                </div>
+                </div>
+                
+              
+                <br>
+                <br>
+                <br>
+                <div class="card">
+                
+                  <h5 class="card-title">appointment\service  <span>| x</span></h5>
+                <div class="container">
+                  <a href="/admincart"><h5>appointment\ service details</h5></a>
+                  
+                </div>
+                </div>
+                
+               
+                
+                
+                <div class="card">
+                
+                  <h5 class="card-title">appointment approvel <span>| Details </span></h5>
+                <div class="container">
+                  <a href="appointments/requests/"><h5>appointment approvel  Details</h5></a>
+                  
+                </div>
+                </div>
+            </div>   
+                    
+                
+         
+        
+    
+</section>
+  
+{% endblock content %}

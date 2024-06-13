@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Services</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>My Services</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Service Name</th>
+                <th>Pet Name</th>
+                <th>Age</th>
+                <th>Contact No</th>
+                <th>Date</th>
+                <th>Service Type</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for service in services %}
+            <tr>
+                <td>{{ service.name }}</td>
+                <td>{{ service.pet_name }}</td>
+                <td>{{ service.age }}</td>
+                <td>{{ service.contact_no }}</td>
+                <td>{{ service.date }}</td>
+                <td>{{ service.get_service_type_display }}</td>
+                <td>${{ service.price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointments</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Appointments</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Customer ID</th>
+                <th>Customer Name</th>
+                <th>Type</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Date</th>
+                <th>Price</th>
+                <th>Approval</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appointment in appointments %}
+            <tr>
+                <td>{{ appointment.customer.id }}</td>
+                <td>{{ appointment.customer.username }}</td>
+                <td>{{ appointment.get_type_display }}</td>
+                <td>{{ appointment.name }}</td>
+                <td>{{ appointment.age }}</td>
+                <td>{{ appointment.date }}</td>
+                <td>${{ appointment.price }}</td>
+                <td>{{ appointment.approval }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

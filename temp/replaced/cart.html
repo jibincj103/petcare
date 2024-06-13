@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Shopping Cart</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Service Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td>{{ item.service.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.service.price }}</td>
+                <td>{{ item.total_price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>PRODUCTS</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/[email protected]/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/[email protected]/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+{% include 'nav.html' %}
+<h1>{{request.user.email}}</h1>
+<div class="container mt-3">
+    {% for i in st %}
+  <div class="card me-3 mt-3" style="width:280px;display: inline-block;vertical-align: top;height:450px;overflow: auto; ">
+    <div class="card-body">
+      <form action="" method="post">
+        {% csrf_token %}
+        
+
+    {% for item in cart_items %}
+    <p>{{ item.service.name }} - {{ item.service.type }} - {{ item.service.petname }} - {{ item.service.age }} - {{ item.service.contact_no }} - {{ item.service.date }} - {{ item.service.servicet }}</p>
+    <form action="{% url 'remove_from_cart' item.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Remove from Cart</button>
+    </form>
+    {% endfor %}
+    <p>Total Price: {{ total_price }}</p>
+
+
+      
+      
+      </form>
+    </div>
+  </div>
+  {% endfor %}
+  <br>
+  
+ 
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
+<h4 class="card-title">NAME:{{i.name}}</h4>
+<h4 class="card-title">TYPE:{{i.type}}</h4>
+<h6 class="card-text"> <h4>PETNAME: </h4><p>{{i.petname}}</p></h6>
+<h4 class="card-title">AGE:{{i.age}}</h4>
+<h4 class="card-title">CONTACT NO:{{i.contact_no}}</h4>
+<h4 class="card-title">DATE:{{i.date}}</h4>
+<h4 class="card-title">SERVICE:{{i.servicet}}</h4> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+
+<div class="bg-light py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-0">
+                <a href="{% url 'index' %}">Home</a> <span class="mx-2 mb-0">/</span>
+                <strong class="text-black">Cart</strong>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="site-section">
+    <div class="container">
+        <div class="row mb-5">
+            <form class="col-md-12" method="post">
+                <div class="site-blocks-table">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr style="background-color: #51eaea">
+                                <th class="product-name">Appointment</th>
+                                <th class="product-price">Price</th>
+                                <th class="product-quantity">Quantity</th>
+                                <th class="product-total">Total</th>
+                                <th class="product-remove">Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in cart_items %}
+                            <tr>
+                                <td class="product-name">
+                                    <h4 class="h5 text-black">{{ item.service.type }} - {{ item.service.name }}</h4>
+                                    <p>Date: {{ item.service.date }}</p>
+                                    <p>Age: {{ item.service.age }}</p>
+                                </td>
+                                <td>₹{{ item.price }}</td>
+                                <td>
+                                    <div class="input-group mb-3" style="max-width: 120px;">
+                                        <div class="input-group-prepend">
+                                            <a href="minuscart/{{ item.id }}" class="btn btn-outline-primary">&minus;</a>
+                                        </div>
+                                        <input type="text" class="form-control text-center" value="{{ item.quantity }}" placeholder=""
+                                            aria-label="Example text with button addon" aria-describedby="button-addon1" disabled>
+                                        <div class="input-group-append">
+                                            {% if item.service.stck > item.quantity %}
+                                            <a href="pluscart/{{ item.id }}" class="btn btn-outline-primary">&plus;</a>
+                                            {% elif item.service.stck == item.quantity %}
+                                            <a href="" class="btn btn-outline-primary">&plus;</a><br>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>₹{{ item.total_price }}</td>
+                                <td><a href="deletecart/{{ item.id }}" class="btn btn-primary height-auto btn-sm">X</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row mb-5">
+                    <div class="col-md-6">
+                        <a href="{% url 'shop' %}" class="btn btn-primary btn-md btn-block">Continue Shopping</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 pl-5">
+                <div class="row justify-content-end">
+                    <div class="col-md-7">
+                        <div class="row">
+                            <div class="col-md-12 text-right border-bottom mb-5">
+                                <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <span class="text-black">Subtotal</span>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <strong class="text-black">₹{{ total_price }}</strong>
+                            </div>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="col-md-6">
+                                <span class="text-black">Total</span>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <strong class="text-black">₹{{ total_price }}</strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="{% url 'checkout' %}" class="btn btn-primary btn-lg btn-block">Proceed To Checkout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

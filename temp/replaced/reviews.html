@@ -1,0 +1,207 @@
+cd petcare
+care\Scripts\activate
+cd ppro
+python manage.py runserver
+python manage.py makemigrations
+python manage.py migrate
+
+
+path('service',views.services,name='service.html'),
+
+@login_required(login_url="log")
+def booking(request):
+    if request.method == "POST":
+        typ= request.POST.get('typ')
+        ownername = request.POST.get('name')
+        pet_name = request.POST.get('petnam')
+        age = request.POST.get('a')
+        phonenumber = request.POST.get('phn')
+        date = request.POST.get('setTodaysDat')
+        service_type = request.POST.get('serv')
+        
+        
+        obj=Service.objects.create(name=ownername,pet_name=pet_name,age=age,contact_no=phonenumber,date=date,service_type=service_type)
+        obj.save()
+    return render(request, 'booking.html')
+# SERVICE_TYPE_CHOICES=typ,
+
+
+
+
+
+
+
+
+
+upcoming cart
+
+
+def add_to_cart(request, service_id):
+    service = Appointment.objects.get(pk=service_id)
+    cart.objects.create(user=request.user, service=service, price=service.price)
+    return redirect('cart')
+
+@login_required
+def remove_from_cart(request, cart_id):
+    try:
+        cart_item = cart.objects.get(pk=cart_id, user=request.user)
+        cart_item.delete()
+    except cart.DoesNotExist:
+        # Handle the case where the cart item doesn't exist
+        pass
+    return redirect('cart')
+
+@login_required
+def view_cart(request):
+    # Retrieve cart items for the current user
+    user_cart_items = cart.objects.filter(user=request.user)
+
+    # Calculate total price for each cart item
+    for item in user_cart_items:
+        item.total_price = item.price * item.quantity
+
+    # Calculate the total price of all items in the cart
+    total_price = sum(item.total_price for item in user_cart_items)
+
+    # Pass cart items and total price to the template
+    context = {
+        'cart_items': user_cart_items,
+        'total_price': total_price
+    }
+
+    # Render the cart template with cart items
+    return render(request, 'cart.html', context)
+
+
+
+<!-- pattern="/^[^\s@]+@[^\s@]+\.[^\s@]+$/" -->
+<div class="form-group">
+    <label for="name">NAME:</label>
+    <input type="text" class="form-control border-0 p-4"   id="name" required="required" />
+</div>
+<div class="form-group">
+    <select class="custom-select border-0 px-4"  id="type" style="height: 47px;">
+        <option selected>pet type</option>
+        <option value="1">Dog</option>
+        <option value="2">Cat</option>
+        <option value="3">others</option>
+    </select>
+</div>
+<div class="form-group">
+    <input type="text" class="form-control border-0 p-4" placeholder="pet Name"  id="petname" required="required" />
+</div>
+<div class="form-group">
+    <input type="number" class="form-control border-0 p-4" placeholder="Phone Number" id="phn" required="required" />
+</div>
+<div class="form-group">
+    <div class="date" id="date" data-target-input="nearest">
+        <input type="datetime-local" class="form-control border-0 p-4 datetimepicker-input"  placeholder="Reservation Date" data-target="#date" data-toggle="datetimepicker"/>
+    </div>
+</div>
+
+</div>
+<div class="form-group">
+    <select class="custom-select border-0 px-4" style="height: 47px;">
+        <option selected>Select A Service</option>
+        <option value="1">BASIC</option>
+        <option value="2">Standard</option>
+        <option value="3">Premium</option>
+    </select>
+</div>
+<div>
+    <button class="btn btn-dark btn-block border-0 py-3" type="submit">Book Now</button>
+</div>
+</form>
+</div>
+
+
+
+
+# def usrlogin(r):
+#       if r.method=='POST':
+        
+#             un=r.POST.get('no')
+#             p1=r.POST.get('pwd')
+#             usr=auth.authenticate(username=un,password=p1)
+#             print("USR",usr)
+#             if usr is not None:
+#                   auth.login(r,usr)
+#                   return redirect('index.html')
+#       return render(r,'log.html')
+
+
+
+
+
+
+def drlogin(request):
+    if request.method == 'POST':
+        no = request.POST.get('no')
+        pa = request.POST.get('pa')
+        
+        try:
+            user = dr_register.objects.get(name=no)
+            if user.password == pa:
+                request.session['dr_register'] = no
+                messages.success(request, 'Login Successful')
+                return render(request, 'dr.html')
+            else:
+                messages.error(request, 'Incorrect Password')
+        except dr_register.DoesNotExist:
+            messages.error(request, 'Invalid Username')
+    
+    return render(request, 'drlogin.html')
+
+
+
+
+def employeereg(request):
+    if request.method == "POST":
+        img = request.POST.get('img')
+        nam = request.POST.get('nam')
+        qualif = request.POST.get('qualif')
+        ad = request.POST.get('ad')
+        con = request.POST.get('con')
+        emai = request.POST.get('emai')
+        pa = request.POST.get('pa')
+        
+        # Create a new employee registration request with approved status set to False
+        obj = Employee_register.objects.create(
+            name=nam,
+            password=pa,
+            image=img,
+            address=ad,
+            qualifications=qualif,
+            contact_no=con,
+            email=emai,
+            approved=False  # Set approved status to False
+        )
+        obj.save()
+        
+        # Redirect to a success page or display a success message
+        return render(request, 'dr.html')
+    
+    return render(request, 'employeereg.html')
+
+
+def admin_login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None and user.is_staff:
+            login(request, user)
+            return redirect('admin_dashboard')
+        else:
+            error_message = "Invalid credentials or you are not authorized."
+            return render(request, 'admin_login.html', {'error_message': error_message})
+    return render(request, 'adminn\.html')
+
+@login_required(login_url='/admin/login/')
+def admin_dashboard(request):
+    pending_requests = Employee_register.objects.filter(approved=False)
+    return render(request, 'admin_dashboard.html', {'pending_requests': pending_requests})
+
+
+    path('admlog', views.admin_login, name='admlog'),
+    path('admin/dashboard/', views.admin_dashboard, name='admin_dashboard'),

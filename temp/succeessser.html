@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Appointment Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #555;
+        }
+
+        .navbar-nav {
+            width: 100%;
+            background-color: #007bff;
+            padding: 10px 0;
+            position: absolute;
+            top: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .navbar-nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+        }
+
+        .navbar-nav a:hover {
+            text-decoration: underline;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .nav-link {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar-nav">
+        <a href="{% url 'index.html' %}" class="nav-item nav-link">Home</a>
+        <a href="{% url 'about.html' %}" class="nav-item nav-link ">About</a>
+        <a href="{% url 'booking.html' %}" class="nav-item nav-link">Service Booking</a>
+        <!-- <div class="dropdown">
+            <a href="#" class="nav-link">Pages</a>
+            <div class="dropdown-content">
+                <a href="{% url 'blog.html' %}">Blog Grid</a>
+                <a href="{% url 'single.html' %}">Blog Detail</a>
+            </div>
+        </div> -->
+        <a href="{% url 'appointments' %}" class="nav-item nav-link">Appointment</a>
+        <a href="{% url 'cart' %}" class="nav-item nav-link">Cart</a>
+        <a href="{% url 'contact.html' %}" class="nav-item nav-link">Contact</a>
+    </div>
+
+    <div class="container">
+        <h1>payment successfully</h1>
+        <!-- <p>Your appointment request has been submitted successfully.</p> -->
+        <p> You can see Your payment status in cart .click to see in cart <button   style="background: #007bff;"><a href="{% url 'cart' %}" class="nav-item nav-link" style="color: aqua;">Cart</a></button></p>
+          
+        <div class="container bg-primary m-3" style="width:fit-content">
+            {{Service.name}}<br>
+            {{Service.service_type}}<br>
+            <br>
+            Stauts:{{Service.payment}}
+        </div>
+    
+    </div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+
+{% load static %}
+<!doctype html>
+
+<html lang="en"> 
+
+ <head> 
+
+  <meta charset="UTF-8"> 
+
+  <title>ADMIN login</title> 
+
+  <link rel="logstyle" href="./login.css"> 
+
+ </head> 
+ {% include 'navlog.html' %}
+ <body> <!-- partial:index.partial.html --> 
+
+  <section> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> 
+
+   <div class="signin"> 
+
+    <div class="content"> 
+      {% if messages %}
+      <div class="alert alert-success alert-dismissible">
+       {% for message in  messages %}
+       <button type="button" class="close"  data-dismiss="alert" style="color: aqua;">x</button>
+       <p style="color: aqua;">{{message}}</p>
+    </div>
+       {% endfor %}
+ 
+       {% endif %}
+
+     <h2> ADMIN Sign In</h2> 
+     <!-- <h1 style="color: aqua;">{{request.user}}</h1> -->
+
+     <div class="form"> 
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+      <div class="inputBox" style="color: aqua;"> 
+
+        ADMIN NAME: <input type="text" id="no" name="no" class="form-input"><br><br>
+         
+
+      </div> 
+
+      <div class="inputBox" style="color: aqua;"> 
+
+        PASSWORD: <input type="password"id="pwd" name="pwd" class="form-input"><br><br>
+
+      </div> 
+<!-- 
+      <div class="links"> <a href="forgot">Forgot Password</a><br><br> <a href="reg">Signup</a>  -->
+
+      <!-- </div>  -->
+      <div class="links" style="color: aqua;"> <a href="/"style="color: aqua;">HOME</a>
+      </div>
+
+      <div class="inputBox"> 
+
+      <input type="submit" value="Login"> 
+
+      </div> 
+
+     </div> 
+
+    </div> 
+
+   </div> 
+   <div class="form-container">
+    {% if messages %}
+    {% for i in messages %}
+    <div class="alert alert-danger d-flex align-items-center alert-dismissible" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+        <div>
+        {{i}}
+        </div> 
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>  
+    {% endfor %}
+    {% endif %}
+  </div>
+
+
+
+  </section> <!-- partial --> 
+
+ </body>
+
+</html>

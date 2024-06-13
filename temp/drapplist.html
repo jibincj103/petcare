@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointments</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #80deea);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .nav-container {
+            width: 100%;
+            background-color: #0288d1; /* Add a background color for the nav */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px 0;
+        }
+
+        .container {
+            width: 80%;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0288d1;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #0288d1;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .highlight-today {
+            background-color: #ffeb3b;
+        }
+
+        .highlight-previous {
+            background-color: #ff5722;
+            color: white;
+        }
+
+        .highlight-upcoming {
+            background-color: #8bc34a;
+            color: white;
+        }
+
+        .legend {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 80%;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            border-radius: 3px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-container">
+        {% include 'drpage.html' %}
+    </div>
+    <div class="container">
+        <h1>Appointments</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Customer ID</th>
+                    <th>Customer Name</th>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Doctor</th>
+                    <th>Age</th>
+                    <th>Date</th>
+                    <th>Price</th>
+                    <th>Approval</th>
+                    <th>Pay</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% now "Y-m-d" as today %}
+                {% for appointment in appointments %}
+                <tr class="
+                    {% if appointment.date|date:"Y-m-d" < today %}
+                        highlight-previous
+                    {% elif appointment.date|date:"Y-m-d" == today %}
+                        highlight-today
+                    {% else %}
+                        highlight-upcoming
+                    {% endif %}
+                ">
+                    <td>{{ appointment.customer.id }}</td>
+                    <td>{{ appointment.customer.username }}</td>
+                    <td>{{ appointment.get_type_display }}</td>
+                    <td>{{ appointment.name }}</td>
+                    <td>{{ appointment.doctor }}</td>
+                    <td>{{ appointment.age }}</td>
+                    <td>{{ appointment.date }}</td>
+                    <td>₹{{ appointment.price }}</td>
+                    <td>{{ appointment.approval }}</td>
+                    <td>{{ appointment.payment }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="legend">
+            <h2>Legend</h2>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #ffeb3b;"></div>
+                <span>Today's Appointments</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #ff5722;"></div>
+                <span>Previous Appointments</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #8bc34a;"></div>
+                <span>Upcoming Appointments</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

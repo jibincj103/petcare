@@ -1,0 +1,37 @@
+@login_required(login_url="log")
+def booking(request):
+    if request.method == "POST":
+            type = request.POST.get('typ')
+            owner_name = request.POST.get('name')
+            pet_name = request.POST.get('petnam')
+            age = request.POST.get('a')
+            phone_number = request.POST.get('phn')
+            date = request.POST.get('setTodaysDat')
+            service_type = request.POST.get('serv')
+            
+            
+            obj = service.objects.create(type=type,name=owner_name,petname=pet_name,age=age,
+                contact_no=phone_number,date=date,servicet=service_type)
+            obj.save()
+            
+   
+    return render(request, 'booking.html')
+
+
+
+    @login_required(login_url="log")
+    def appointments(request):
+        if request.method == "POST":
+            type= request.POST.get('type')
+            no = request.POST.get('name')
+            a = request.POST.get('a')
+            d = request.POST.get('setTodaysDate')
+            
+            obj = Appointment.objects.create(name=no, type=type, age=a, date=d)
+            obj.save()
+            messages.success(request, "User registered successfully")  # Optionally, provide a success message
+        
+        return render(request, 'appoin.html')
+          
+
+

@@ -1,0 +1,235 @@
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Two Navigation Bars</title>
+<style>
+    /* Horizontal Navbar */
+    .navbar-horizontal {
+        background-color: #333;
+        overflow: hidden;
+    }
+    
+    .navbar-horizontal a {
+        float: left;
+        display: block;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 20px;
+        text-decoration: none;
+    }
+    
+    .navbar-horizontal a:hover {
+        background-color: #ddd;
+        color: black;
+    }
+    
+    .nav-center ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+    
+    .nav-center li {
+        float: left;
+    }
+
+    /* Vertical Navbar */
+    .navbar-vertical {
+        width: 200px;
+        background-color: #f1f1f1;
+        position: fixed;
+        height: 100%;
+        overflow: auto;
+    }
+    
+    .navbar-vertical a {
+        padding: 10px 15px;
+        text-decoration: none;
+        font-size: 18px;
+        color: #000;
+        display: block;
+    }
+    
+    .navbar-vertical a:hover {
+        background-color: #ddd;
+        color: black;
+    }
+</style>
+</head>
+<body>
+
+<!-- Horizontal Navbar -->
+<div class="navbar-horizontal">
+    <div class="nav-center">
+        <ul>
+            <li><a href="/adminadd">Admin Page</a></li>
+            <li><a href="/drpage">DR Page</a></li>
+            <li><a href="/emppage">Employee Page</a></li>
+            <li style="padding-left: 1050px;"><a href="/">Home</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Vertical Navbar -->
+<div class="navbar-vertical">
+    <div class="nav-center">
+        <ul>
+            <li><a href="/approvedrreg">DR Registration Approval</a></li>
+            <li><a href="/approveempreg">EMP Registration Approval</a></li>
+            <li><a href="/admincart">Appointment/Service</a></li>
+            <li><a href="/empregisterlist">Dr/Employee</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Content -->
+<div style="margin-left: 220px; padding: 20px;">
+    <h2>Content Area</h2>
+    <p>This is the main content area of the page.</p>
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
+<!-- ................................................................................................. -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block title %}
+    <title>Admin Page</title>
+    {% endblock title %}
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            width: 20%;
+            border-radius: 5px;
+            display: inline-block;
+            padding: 1%;
+            margin: 10px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+
+        .container {
+            padding: 2px 16px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        .pagetitle {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .card-title span {
+            color: #6c757d;
+        }
+
+        .container a h5 {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .container a h5:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="pagetitle">
+            <h1>Admin Page</h1>
+        </div>
+        
+        <section>
+            <div>
+                <div class="card">
+                    <h5 class="card-title">DR Page <span>| Price</span></h5>
+                    <div class="container">
+                        <a href="/drlog"><h5>DR PAGE</h5></a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h5 class="card-title">EMP Page <span>| List</span></h5>
+                    <div class="container">
+                        <a href="/emplog"><h5>EMP PAGE</h5></a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h5 class="card-title">DR Registration Approval <span>| x</span></h5>
+                    <div class="container">
+                        <a href="/approvedrreg"><h5>DR Registration Approval details</h5></a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h5 class="card-title">EMP Registration Approval <span>| Category</span></h5>
+                    <div class="container">
+                        <a href="/approveempreg"><h5>EMP Registration Approval</h5></a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h5 class="card-title">Appointment/Service <span>| Details</span></h5>
+                    <div class="container">
+                        <a href="/admincart"><h5>Appointment/Service Details</h5></a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h5 class="card-title">DR/Employee <span>| Details</span></h5>
+                    <div class="container">
+                        <a href="/empregisterlist"><h5>DR/Employee Details</h5></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

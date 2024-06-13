@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head1 %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <script src="{% static 'js/dashboard.js' %}"></script>
+    {% endblock %}
+    <title>Admin cart</title>
+    <style>
+         body {
+            background-image: url('static/img/PetCare-Logo_2.jpg'); /* Path to your background image */
+            background-size: cover; /* Cover the whole page */
+            background-position: center; /* Center the image */
+            background-repeat: no-repeat; /* Do not repeat the image */
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        .dashboard-wrap {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .dashboard-html {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .tab {
+            font-size: 18px;
+            margin: 10px;
+            padding: 10px;
+            background-color: #0288d1;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .tab:hover {
+            background-color: #0277bd;
+        }
+
+        .dashboard-form {
+            width: 100%;
+        }
+
+        .appointments-htm, .services-htm {
+            display: none;
+        }
+
+        .appointments:checked ~ .dashboard-form .appointments-htm,
+        .services:checked ~ .dashboard-form .services-htm {
+            display: block;
+        }
+
+        h1 {
+            color: #0288d1;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #b3e5fc;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 5px;
+        }
+
+        /* Back to Top */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: none;
+            background-color: #0288d1;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 22px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .back-to-top:hover {
+            background-color: #0277bd;
+        }
+    </style>
+</head>
+<body>
+    {% include 'adminpage1.html' %}
+
+    {% block content %}
+    <div class="dashboard-wrap" >
+        <div class="dashboard-html">
+            <input id="tab-1" type="radio" name="tab" class="appointments" checked>
+            <label for="tab-1" class="tab">Appointments</label>
+            <input id="tab-2" type="radio" name="tab" class="services">
+            <label for="tab-2" class="tab">Services</label>
+
+            <div class="dashboard-form" style="overflow: auto;height:  400px;">
+                <div class="appointments-htm">
+                    <h1>Customer Appointments</h1>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Customer ID</th>
+                                <th>Customer Name</th>
+                                <th>Type</th>
+                                <th>Doctor</th>
+                                <th>Pet Name</th>
+                                <th>Pet Age</th>
+                                <th>Date</th>
+                                <th>Price</th>
+                                <th>Approval</th>
+                                <th>Pay</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for appointment in appointments %}
+                            <tr>
+                                <td>{{ appointment.customer.id }}</td>
+                                <td>{{ appointment.customer.username }}</td>
+                                <td>{{ appointment.get_type_display }}</td>
+                                <td>{{ appointment.doctor }}</td>
+                                <td>{{ appointment.name }}</td>
+                                <td>{{ appointment.age }}</td>
+                                <td>{{ appointment.date }}</td>
+                                <td>₹{{ appointment.price }}</td>
+                                <td>{{ appointment.approval }}</td>
+                                <td>{{ appointment.payment }}</td>
+
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="services-htm"  style="overflow: auto;height:  400px;">
+                    <h1>Customer Services</h1>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Customer ID</th>
+                                <th>Customer Name</th>
+                                <th>Service Name</th>
+                                <th>Pet Name</th>
+                                <th>Age</th>
+                                <th>Contact No</th>
+                                <th>Date</th>
+                                <th>Service Type</th>
+                                <th>Price</th>
+                                <th>Pay</th>
+                                <th>done</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for service in services %}
+                            <tr>
+                                <td>{{ service.customer.id }}</td>
+                                <td>{{ service.customer.username}}</td>
+                                <td>{{ service.name }}</td>
+                                <td>{{ service.pet_name }}</td>
+                                <td>{{ service.age }}</td>
+                                <td>{{ service.contact_no }}</td>
+                                <td>{{ service.date }}</td>
+                                <td>{{ service.get_service_type_display }}</td>
+                                <td>₹{{ service.price }}</td>
+                                <td>{{ service.payment }}</td>
+                                <td>{{ service.done }}</td>
+                                {% if service.done == 'false' %}
+                                <td>
+                                    <span style="color:antiquewhite;background-color:cadetblue;border-radius: 10px;padding:5px">Not Done</span>
+                                </td>
+                                {% elif service.done == 'true' %}
+                                <td>
+                                    <span style="color:antiquewhite;background-color:cadetblue;border-radius: 10px;padding:5px">DONE</span>
+                                </td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/tempusdominus/js/moment.min.js"></script>
+    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <!-- Contact Javascript File -->
+    <script src="mail/jqBootstrapValidation.min.js"></script>
+    <script src="mail/contact.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Show or hide the back-to-top button
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 100) {
+                    $('.back-to-top').fadeIn();
+                } else {
+                    $('.back-to-top').fadeOut();
+                }
+            });
+
+            // Scroll back to top on click
+            $('.back-to-top').click(function() {
+                $('html, body').animate({ scrollTop: 0 }, 800);
+                return false;
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+

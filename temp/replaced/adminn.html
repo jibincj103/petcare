@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <h1>Welcome to Admin Dashboard</h1>
+    <h2>Pending Registration Requests:</h2>
+    
+    {% if pending_requests %}
+        <ul>
+            {% for request in pending_requests %}
+                <li>
+                    <strong>Name:</strong> {{ request.name }} <br>
+                    <strong>Email:</strong> {{ request.email }} <br>
+                    <strong>Qualifications:</strong> {{ request.qualifications }} <br>
+                    <strong>Contact No:</strong> {{ request.contact_no }} <br>
+                    <!-- Add other fields as needed -->
+                    
+                    <!-- Approve and Reject buttons -->
+                    <form action="{% url 'admin_approval' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="request_id" value="{{ request.id }}">
+                        <button type="submit" name="approve_{{ request.id }}">Approve</button>
+                        <button type="submit" name="reject_{{ request.id }}">Reject</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No pending registration requests.</p>
+    {% endif %}
+    
+    <a href="{% url 'logout' %}">Logout</a>
+</body>
+</html>
+
+
+
+admincart..................................................
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    {% block head1 %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <script src="{% static 'js/dashboard.js' %}"></script>
+    {% endblock %}
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: white;
+            color: #333;
+        }
+
+        .navbar {
+            background-color: #333;
+            padding: 10px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .navbar ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        .navbar ul li.logo {
+            margin-right: 0;
+        }
+
+        .navbar ul li.logo img {
+            height: 40px;
+            margin: 5px;
+        }
+
+        .navbar ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .dashboard-wrap {
+            margin-top: 00px; /* Adjust to avoid overlap with fixed navbar */
+        }
+
+        .container {
+            width: 80%;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin: 20px auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0288d1;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #b3e5fc;
+            color: #333;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="dashboard-wrap">
+    
+    {% include 'adminpage.html' %}
+    
+    <div class="dashboard-html">
+        <!-- <input id="tab-1" type="radio" name="tab" class="appointments" checked>
+        <label for="tab-1" class="tab">Appointments</label>
+        <input id="tab-2" type="radio" name="tab" class="services">
+        <label for="tab-2" class="tab">Services</label> -->
+
+        <div class="dashboard-form" style="overflow: auto;height:  200px;">
+            <div class="appointments-htm">
+                <h1>Your Appointments</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Customer ID</th>
+                            <th>Customer Name</th>
+                            <th>Type</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Date</th>
+                            <th>Price</th>
+                            <th>Approval</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for appointment in appointments %}
+                        <tr>
+                            <td>{{ appointment.customer.id }}</td>
+                            <td>{{ appointment.customer.username }}</td>
+                            <td>{{ appointment.get_type_display }}</td>
+                            <td>{{ appointment.name }}</td>
+                            <td>{{ appointment.age }}</td>
+                            <td>{{ appointment.date }}</td>
+                            <td>${{ appointment.price }}</td>
+                            
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="services-htm">
+                <h1>Your Services</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Customer ID</th>
+                            <th>Service Name</th>
+                            <th>Pet Name</th>
+                            <th>Age</th>
+                            <th>Contact No</th>
+                            <th>Date</th>
+                            <th>Service Type</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for service in services %}
+                        <tr>
+                            <td>{{ service.customer.id }}</td>
+                            <td>{{ service.name }}</td>
+                            <td>{{ service.pet_name }}</td>
+                            <td>{{ service.age }}</td>
+                            <td>{{ service.contact_no }}</td>
+                            <td>{{ service.date }}</td>
+                            <td>{{ service.get_service_type_display }}</td>
+                            <td>${{ service.price }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+<td>{{ appointment.approval }}</td>

@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADMIN page</title>
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: white;
+            color: #333;
+        }
+
+        nav {
+            background-color: #1c56b2;
+            padding: 10px 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-center {
+            flex-grow: 1;
+            display: flex;
+        }
+
+        .nav-center ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-center ul li {
+            margin-right: 20px;
+        }
+
+        .nav-left .logo img {
+            height: 40px;
+            margin: 5px;
+        }
+
+        .nav-center ul li a {
+            color: #fff;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .content {
+            margin-top: 70px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- <nav>
+        <div class="nav-left">
+            <div class="logo"><img src="{% static 'img/PetCare-Logo_2.jpg' %}" alt="Logo"></div>
+        </div>
+        <div class="nav-center">
+            <ul>
+                <li><a href="/adminadd">Admin Page</a></li>
+                <li><a href="/drpage1">DR Page</a></li>
+                <li><a href="/emppage1">Employee Page</a></li>
+                <li style="padding-left: 1030px;"><a href="/">Home</a></li>
+            </ul>
+        </div>
+    </nav> -->
+
+    <nav>
+        <div class="nav-center">
+            <ul>
+                <li><a href="/approvedrreg">DR Registration Approval</a></li>
+                <li><a href="/approveempreg">EMP Registration Approval</a></li>
+                <li><a href="/admincart">Appointment/Service</a></li>
+                <li><a href="/empregisterlist">Dr/Employee</a></li>
+                <li><a href="/messages">Contactas</a></li>
+                <li><a href="/logout">logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="content">
+        <!-- Your content goes here -->
+    </div>
+</body>
+</html>

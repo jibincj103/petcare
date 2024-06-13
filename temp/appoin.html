@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Make Appointment</title>
+        <script>
+
+window.onload=function(){//from ww  w . j  a  va2s. c  o  m
+    var today = new Date().toISOString().slice(0, 16);
+
+document.getElementsByName("setTodaysDate")[0].min = today;
+    }
+        </script>
+        
+            
+    </head>
+<body>
+    
+{% include 'nav.html' %}
+<form action="{% url 'appointments' %}" method="post">
+
+    {% csrf_token %}
+   
+
+    
+<div class="container-fluid bg-light pt-5">
+    <div class="container py-5">
+        <div class="row pb-3">
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="d-flex flex-column text-center bg-white mb-2 p-3 p-sm-5">
+                    <h3 class="flaticon-house display-3 font-weight-normal text-secondary mb-3"></h3>
+                    <h3 class="mb-3">Dedication and Sacrifice</h3>
+                    <p>In the intricate tapestry of our lives, doctors stand as pillars of strength, compassion, and dedication. They selflessly devote themselves to the noble cause of healing, often sacrificing their own comfort for the well-being of others.</p>
+                    <!-- <a class="text-uppercase font-weight-bold" href="">Read More</a> -->
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="d-flex flex-column text-center bg-white mb-2 p-3 p-sm-5">
+                    <h3 class="flaticon-food display-3 font-weight-normal text-secondary mb-3"></h3>
+                    <h3 class="mb-3">Compassion and Empathy</h3>
+                    <p>Their commitment goes beyond mere medical expertise; it encompasses empathy, understanding, and a relentless pursuit of excellence. Doctors are not just healers of bodies; they are healers of souls.</p>
+                    <!-- <a class="text-uppercase font-weight-bold" href="">Read More</a> -->
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="d-flex flex-column text-center bg-white mb-2 p-3 p-sm-5">
+                    <h3 class="flaticon-grooming display-3 font-weight-normal text-secondary mb-3"></h3>
+                    <h3 class="mb-3">Pioneers of Progress</h3>
+                    <p>Through their tireless efforts and unwavering resolve, doctors have pioneered groundbreaking advancements in medicine, reshaping the landscape of healthcare and saving countless lives along the way.</p>
+                    <!-- <a class="text-uppercase font-weight-bold" href="">Read More</a> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="container">
+        
+        <div class="row align-items-center">
+            <div class="col-lg-5">
+                <div class="bg-primary py-5 px-4 px-sm-5">
+                    <h1 style="padding-bottom: 15px;">DR Appointment</h1>
+                    <form method="POST">
+                        
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="type">TYPE:</label>
+                            <select name="type" class="custom-select border-0 px-4" id="type" onchange="calculatePrice()">
+                                <option>Dog</option>
+                                <option>Cat</option>
+                                <option>Mouse</option>
+                                <option>Other</option>
+                            </select><br>
+                        </div>
+                        <div class="form-group">
+                            <label for="name"> PET NAME:</label>
+                            <input type="text" class="form-control border-0 p-4" name="name" id="name"><br>
+                        </div>
+                        <div class="form-group">
+                            <label for="age"> PET AGE:</label>
+                            <input type="number" class="form-control border-0 p-4" name="a" id="a"><br>
+                        </div>
+                        <div class="form-group">
+                            <label for="date">DATE:</label>
+                            <input type="datetime-local" class="form-control border-0 p-4" name="setTodaysDate" id="setTodaysDate"><br><br>
+                        </div>
+                        <div class="form-group">
+                            <label for="doctor">SELECT DOCTOR:</label>
+                            <select name="doctor" class="custom-select border-0 px-4" id="doctor">
+                                {% for doctor in doctors %}
+                                <option value="{{ doctor.emp_id }}">{{ doctor.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div id="priceDisplay" style="color: black;"></div> <!-- Price display -->
+                        <div>
+                            <button type="submit">CONFIRM APPOINTMENT</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+       
+
+<!-- other one -->
+            <div class="col-lg-7 py-5 py-lg-0 px-3 px-lg-5">
+                <h4 class="text-secondary mb-3">we are always here to help you</h4>
+                <h1 class="display-4 mb-4">Book For <span class="text-primary">Your Pet</span></h1>
+                <p>Labore vero lorem eos sed aliquy ipsum aliquy sed. Vero dolore dolore takima ipsum lorem rebum</p>
+                <div class="row py-2">
+                    <div class="col-sm-6">
+                        <div class="d-flex flex-column">
+                            <div class="d-flex align-items-center mb-2">
+                                <h1 class="flaticon-house font-weight-normal text-secondary m-0 mr-3"></h1>
+                                <h5 class="text-truncate m-0">Pet Boarding</h5>
+                            </div>
+                            <p>Diam amet eos at no eos sit lorem, amet rebum ipsum clita stet</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="d-flex flex-column">
+                            <div class="d-flex align-items-center mb-2">
+                                <h1 class="flaticon-food font-weight-normal text-secondary m-0 mr-3"></h1>
+                                <h5 class="text-truncate m-0">Pet Feeding</h5>
+                            </div>
+                            <p>Diam amet eos at no eos sit lorem, amet rebum ipsum clita stet</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="d-flex flex-column">
+                            <div class="d-flex align-items-center mb-2">
+                                <h1 class="flaticon-grooming font-weight-normal text-secondary m-0 mr-3"></h1>
+                                <h5 class="text-truncate m-0">Pet Grooming</h5>
+                            </div>
+                            <p class="m-0">Diam amet eos at no eos sit lorem, amet rebum ipsum clita stet</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="d-flex flex-column">
+                            <div class="d-flex align-items-center mb-2">
+                                <h1 class="flaticon-toy font-weight-normal text-secondary m-0 mr-3"></h1>
+                                <h5 class="text-truncate m-0">Pet Tranning</h5>
+                            </div>
+                            <p class="m-0">Diam amet eos at no eos sit lorem, amet rebum ipsum clita stet</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+                <script>
+                    function calculatePrice() {
+                        var type = document.getElementById("type").value;
+                        var priceDisplay = document.getElementById("priceDisplay");
+            
+                        
+                        var price;
+                        if (type === 'Dog') {
+                            price = 299;
+                        } else if (type === 'Cat') {
+                            price = 259; 
+                        } else if (type === 'Mouse') {
+                            price = 399; 
+                        } else {
+                            price = 499;
+                        }
+            
+                        // Update price display
+                        priceDisplay.innerHTML = "Price: ₹" + price;
+                    }
+                </script>
+        
+</form>
+{% include 'navd.html' %}
+
+
+<!-- Back to Top -->
+<a href="#" class="btn btn-lg btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="lib/tempusdominus/js/moment.min.js"></script>
+<script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<!-- Contact Javascript File -->
+<script src="mail/jqBootstrapValidation.min.js"></script>
+<script src="mail/contact.js"></script>
+
+<!-- Template Javascript -->
+<script src="js/main.js"></script>
+</body>
+</html>

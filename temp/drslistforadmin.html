@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Register</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Doctor Register</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Emp ID</th>
+                <th>Name</th>
+                <th>Image</th>
+                <th>Address</th>
+                <th>Qualifications</th>
+                <th>Contact No</th>
+                <th>Email</th>
+                <th>Identity Card</th>
+                <th>Approved</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for doctor in doctors %}
+            <tr>
+                <td>{{ doctor.emp_id }}</td>
+                <td>{{ doctor.name }}</td>
+                <td>
+                    {% if doctor.image %}
+                    <img src="{{ doctor.image.url }}" alt="{{ doctor.name }}" width="100">
+                    {% else %}
+                    No Image
+                    {% endif %}
+                </td>
+                <td>{{ doctor.address }}</td>
+                <td>{{ doctor.qualifications }}</td>
+                <td>{{ doctor.contact_no }}</td>
+                <td>{{ doctor.email }}</td>
+                <td>
+                    {% if doctor.identity_card %}
+                    <img src="{{ doctor.identity_card.url }}" alt="ID Card" width="100">
+                    {% else %}
+                    No ID Card
+                    {% endif %}
+                </td>
+                <td>{{ doctor.approved|yesno:"Yes,No" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

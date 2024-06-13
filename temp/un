@@ -1,0 +1,36 @@
+
+
+# Create your models here.
+
+
+class login(models.Model):
+    name=models.CharField(max_length=15)
+    password=models.CharField(max_length=15)
+    phone=models.IntegerField()
+    address=models.TextField()
+    District=models.CharField(max_length=30)
+
+
+    def __str__(s):
+        return f'{s.name}'
+
+
+
+
+    
+
+
+# class PasswordReset(models.Model):
+#     username = models.ForeignKey(User,on_delete=models.CASCADE)
+#     token = models.CharField(max_length=100,unique=True)
+#     created_at = models.DateTimeField(auto_now_add=True)
+
+
+# class booking(models.Model):
+#     name=models.CharField(max_lenght=15)
+#     mail=models.EmailField()
+#     time=models.TimeField()
+#     Service=models.CharField(max_lenght=15)
+
+
+ 
